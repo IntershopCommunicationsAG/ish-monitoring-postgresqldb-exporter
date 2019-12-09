@@ -1,0 +1,45 @@
+version: '3'
+networks:
+  postgresql-prom-exporter:
+
+services:
+  postgresqlserver:
+    image: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=YourStrong!Passw0rd
+      - POSTGRES_DB=mydb
+    ports:
+      - 1433:1433
+    networks:
+      - postgresql-prom-exporter
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - postgresql-prom-exporter
+
+  postgresql-exporter:
+    build:
+      context: .
+    depends_on:
+      - sqlserver
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRESQL_DATABASE=postgres
+      - POSTGRESQL_HOST=postgresqlserver
+      - POSTGRESQL_USERNAME=root
+      - POSTGRESQL_PASSWORD=YourStrong!Passw0rd
+      - POSTGRESQL_CONFIG=config.DevelopmentConfig
+      - COLLECT_METRICS_INTERVAL_SEC=15
+    networks:
+      - postgresql-prom-exporter
+
+volumes:
+  exporter_data:
+    driver: local

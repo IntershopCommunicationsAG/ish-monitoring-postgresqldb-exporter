@@ -1,0 +1,14 @@
+global:
+  scrape_interval: 30s
+
+scrape_configs:
+  - job_name: "prometheusMssqlExporter"
+    scrape_interval: 1m
+    scrape_timeout: 10s
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["ish-monitoring-mssql-exporter:8000"]
+        labels:
+          tenant: 'INTERSHOP'
+          instance: 'localhost:9100'
+          environment: 'mine'
