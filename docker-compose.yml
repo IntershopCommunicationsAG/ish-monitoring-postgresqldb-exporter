@@ -1,4 +1,9 @@
 version: '3'
+
+volumes:
+  postgresql:
+  postgresql_data:
+
 networks:
   postgresql-prom-exporter:
 
@@ -10,7 +15,11 @@ services:
       - POSTGRES_PASSWORD=YourStrong!Passw0rd
       - POSTGRES_DB=mydb
     ports:
-      - 1433:1433
+      - "5432:5432"
+    volumes:
+      - postgresql:/var/lib/postgresql
+      # This needs explicit mapping due to https://github.com/docker-library/postgres/blob/4e48e3228a30763913ece952c611e5e9b95c8759/Dockerfile.template#L52
+      - postgresql_data:/var/lib/postgresql/data
     networks:
       - postgresql-prom-exporter
 
@@ -31,15 +40,12 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - POSTGRESQL_SSL=0
       - POSTGRESQL_DATABASE=postgres
       - POSTGRESQL_HOST=postgresqlserver
       - POSTGRESQL_USERNAME=root
       - POSTGRESQL_PASSWORD=YourStrong!Passw0rd
-      - POSTGRESQL_CONFIG=config.DevelopmentConfig
+      - FLASK_CONFIG=config.DevelopmentConfig
       - COLLECT_METRICS_INTERVAL_SEC=15
     networks:
       - postgresql-prom-exporter
-
-volumes:
-  exporter_data:
-    driver: local

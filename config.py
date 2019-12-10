@@ -11,11 +11,13 @@ class BaseConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     SSL = os.getenv('POSTGRESQL_SSL', True)
+    if isinstance(SSL, str):
+        SSL = SSL.lower() in ['true', '1', 'yes', "t"]
     DATABASE = os.getenv('POSTGRESQL_DATABASE', 'postgres')
-    HOST = os.getenv('POSTGRESQL_HOST', '<somehost>')
+    HOST = os.getenv('POSTGRESQL_HOST', 'localhost')
     PORT = os.getenv('POSTGRESQL_PORT', 5432 )
-    USERNAME = os.getenv('POSTGRESQL_USERNAME', '<someuser>')
-    PASSWORD = os.getenv('POSTGRESQL_PASSWORD', '<somepassword>')
+    USERNAME = os.getenv('POSTGRESQL_USERNAME', 'root')
+    PASSWORD = os.getenv('POSTGRESQL_PASSWORD', 'YourStrong!Passw0rd')
     COLLECT_METRICS_INTERVAL_SEC = int(
         os.getenv('COLLECT_METRICS_INTERVAL_SEC', 120))
     DEBUG = False
