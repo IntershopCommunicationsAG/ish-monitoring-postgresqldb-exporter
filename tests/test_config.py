@@ -7,7 +7,6 @@ It's pretty standard and shouldn't really be modified, unless you add
 new configurations.
 """
 import os
-import unittest
 
 from flask import current_app
 from flask_testing import TestCase

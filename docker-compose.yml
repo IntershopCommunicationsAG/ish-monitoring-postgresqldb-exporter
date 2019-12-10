@@ -27,7 +27,7 @@ services:
     build:
       context: .
     depends_on:
-      - sqlserver
+      - postgresqlserver
     ports:
       - "8000:8000"
     environment:

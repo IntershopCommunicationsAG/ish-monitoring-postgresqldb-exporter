@@ -1,10 +1,14 @@
-ARG PYTHON_VERSION=3.7
+ARG PYTHON_VERSION=3.8
 
 FROM python:${PYTHON_VERSION}-slim-buster
+
+RUN apt-get update \
+    && apt-get install -yqq build-essential
 
 ENV PYTHONDONTWRITEBYTECODE=True
 
 RUN mkdir -p /usr/src/app
+
 WORKDIR /usr/src/app
 
 COPY ./requirements.txt /usr/src/app/requirements.txt
