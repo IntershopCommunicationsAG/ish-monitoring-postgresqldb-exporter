@@ -18,7 +18,7 @@ class AbstractMetric:
     @abstractmethod
     def collect(self, rows):
         """
-        Collect prom from MSSQL and set prometheus
+        Collect prom from PostgreSQL and set prometheus
         :param rows: sql result
         :return:
         """

@@ -12,7 +12,7 @@ LOGGER = logging.getLogger(__name__)
 
 class Up(AbstractMetric):
 
-    def __init__(self, registry, app):
+    def __init__(self, registry, dbVersion):
         """
         Initialize query and metrics
         """

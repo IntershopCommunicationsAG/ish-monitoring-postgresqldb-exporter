@@ -4,6 +4,7 @@ from prometheus_client.registry import CollectorRegistry
 
 from app.prom.collector import Collector
 from app.prom.metrics.abstract_metric import AbstractMetric
+from app.prom.database import util as db_util
 
 class PromInitializer:
     """
@@ -13,12 +14,19 @@ class PromInitializer:
     def __init__(self, app):
         self.registry = CollectorRegistry()
 
-        self.metrics = [
-            obj(self.registry, app) for obj in AbstractMetric.__subclasses__()
-        ]
+        with app.app_context():
 
-        assert len(
-            self.metrics) != 0, "At least one metric should be initialized"
+            # get db version
+            # will be executed once on startup
+            if db_util.is_port_open():
+                dbVersion = db_util.get_version()
 
-        # Prometheus setup
-        self.collector = Collector(self.metrics)
+                self.metrics = [
+                    obj(self.registry, dbVersion) for obj in AbstractMetric.__subclasses__()
+                ]
+
+                assert len(
+                    self.metrics) != 0, "At least one metric should be initialized"
+
+                # Prometheus setup
+                self.collector = Collector(self.metrics)

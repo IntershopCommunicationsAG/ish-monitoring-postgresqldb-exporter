@@ -62,7 +62,7 @@ def create_app():
                               seconds=app.config['COLLECT_METRICS_INTERVAL_SEC'])
 #         except AttributeError:
 #             pass
-#             LOGGER.info("There is no connection to a mssql datasource at the moment")
+#             LOGGER.info("There is no connection to a postgresql datasource at the moment")
         except OperationalError as e:
             LOGGER.info("Exception for the first time when connecting to database: %s", str(e))
 

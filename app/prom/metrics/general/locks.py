@@ -9,7 +9,7 @@ NAME = '''database'''
 
 class Locks(AbstractMetric):
 
-    def __init__(self, registry, app):
+    def __init__(self, registry, dbVersion):
         """
         Initialize query and metrics
         """

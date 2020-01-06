@@ -11,8 +11,8 @@ image:
 
 service:
   type: ClusterIP
-  port: 8000
-  targetPort: 8000
+  port: 9187
+  targetPort: 9187
   name: http
   labels: {}
   annotations: {}
@@ -65,8 +65,9 @@ flask:
 collectMetricsIntervalSec: 15
 
 postgresql:
-  server: <someserver>
+  host: <somehost>
   port: "5432"
+  database: postgres
   user: <someuser>
   # Only one of password and passwordSecret can be specified
   password: <somepassword>

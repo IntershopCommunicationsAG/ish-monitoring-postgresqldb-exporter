@@ -26,7 +26,7 @@ NAME = '''name'''
 
 class StatDatabase(AbstractMetric):
 
-    def __init__(self, registry, app):
+    def __init__(self, registry, dbVersion):
         """
         Initialize query and metrics
         """

@@ -1,5 +1,5 @@
-{{- if and .Values.mssql.passwordSecret .Values.mssql.password -}}
-{{ fail (printf "ERROR: only one of .Values.mssql.passwordSecret and .Values.mssql.password must be defined") }}
+{{- if and .Values.postgresql.passwordSecret .Values.postgresql.password -}}
+{{ fail (printf "ERROR: only one of .Values.postgresql.passwordSecret and .Values.postgresql.password must be defined") }}
 {{- end -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -29,25 +29,27 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           env:
-          - name: MSSQL_SERVER
-            value: {{ .Values.mssql.server }}
+          - name: POSTGRESQL_HOST
+            value: {{ .Values.postgresql.host }}
           - name: FLASK_CONFIG
             value: {{ .Values.flask.config }}
           - name: COLLECT_METRICS_INTERVAL_SEC
             value: {{ .Values.collectMetricsIntervalSec | quote }}
-          - name: MSSQL_PORT
-            value: {{ .Values.mssql.port | quote }}
-          - name: MSSQL_USERNAME
-            value: {{ .Values.mssql.user }}
-          - name: MSSQL_PASSWORD
+          - name: POSTGRESQL_PORT
+            value: {{ .Values.postgresql.port | quote }}
+          - name: POSTGRESQL_DATABASE
+            value: {{ .Values.postgresql.database | quote }}
+          - name: POSTGRESQL_USERNAME
+            value: {{ .Values.postgresql.user }}
+          - name: POSTGRESQL_PASSWORD
             valueFrom:
               secretKeyRef:
-          {{- if .Values.mssql.passwordSecret }}
-                name: {{ .Values.mssql.passwordSecret.name }}
-                key: {{ .Values.mssql.passwordSecret.key }}
+          {{- if .Values.postgresql.passwordSecret }}
+                name: {{ .Values.postgresql.passwordSecret.name }}
+                key: {{ .Values.postgresql.passwordSecret.key }}
           {{- else }}
                 name: {{ template "ish-monitoring-postgresqldb-exporter.fullname" . }}
-                key: mssql_password
+                key: postgresql_password
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}

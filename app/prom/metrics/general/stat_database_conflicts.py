@@ -13,7 +13,7 @@ NAME = '''name'''
 
 class StatDatabaseConflicts(AbstractMetric):
 
-    def __init__(self, registry, app):
+    def __init__(self, registry, dbVersion):
         """
         Initialize query and metrics
         """

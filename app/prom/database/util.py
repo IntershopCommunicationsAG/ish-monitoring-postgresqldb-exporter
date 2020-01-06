@@ -37,10 +37,10 @@ def get_version():
     version = next(rows)
     return version.get('server_version')
 
-def dbVersionIsGreaterOrEqual(v):
-    if version.parse(get_version()) >= version.parse(v):
+def dbVersionCompare(v1, v2):
+    if version.parse(v1) >= version.parse(v2):
         return True
-    elif version.parse(get_version()) < version.parse(v):
+    elif version.parse(v1) < version.parse(v2):
         return False
 
 def get_query_result(conn, query):

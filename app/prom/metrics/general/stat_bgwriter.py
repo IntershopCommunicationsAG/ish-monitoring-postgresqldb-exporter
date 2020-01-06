@@ -18,7 +18,7 @@ STATS_RESET = '''last_stats_reset_min'''
 
 class BgWriter(AbstractMetric):
 
-    def __init__(self, registry, app):
+    def __init__(self, registry, dbVersion):
         """
         Initialize query and metrics
         """

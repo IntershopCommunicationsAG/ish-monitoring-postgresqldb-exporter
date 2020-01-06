@@ -43,8 +43,8 @@ The following table lists the configurable parameters of the postgresql Exporter
 | `imagePullPolicy`               | Image pull policy                          | `IfNotPresent` |
 | `service.annotations`           | annotations for the service                | `{}`           |
 | `service.type`      | Service type |  `ClusterIP` |
-| `service.port`                      | The service port                               | `8000`                                     |
-| `service.targetPort`                      | The target port of the container                               | `8000`                                        |
+| `service.port`                      | The service port                               | `9187`                                     |
+| `service.targetPort`                      | The target port of the container                               | `9187`                                        |
 | `service.name`                  | Name of the service port                   | `http`                                                     |
 | `service.labels`                | Labels to add to the service               | `{}`                                                       |
 | `serviceMonitor.enabled`          | Use servicemonitor from prometheus operator                             | `false`                     |
@@ -54,7 +54,7 @@ The following table lists the configurable parameters of the postgresql Exporter
 | `serviceMonitor.labels`           | labels for the ServiceMonitor passed to Prometheus Operator             | `{}`                        |
 | `serviceMonitor.timeout`          | Timeout after which the scrape is ended                                 |                             |
 | `resources`          |                                  |                    `{}`                                  |
-| `flask.config`                 | flask configuration                      |  see [values.yaml](values.yaml)              |
+| `postgresql`                 | PostgreSQL datasource configuration                      |  see [values.yaml](values.yaml)              |
 | `flask.config`                 | flask configuration                      |  see [values.yaml](values.yaml)              |
 | `collectMetricsIntervalSec`                 | metrics gathering interval                      | `15` |
 | `rbac.create`                   | Specifies whether RBAC resources should be created.| `true` |
@@ -84,3 +84,10 @@ Alternatively, a YAML file that specifies the values for the above parameters ca
 ```console
 $ helm install --name my-release -f values.yaml ish-monitoring-postgresqldb-exporter
 ```
+
+Azure deployment
+```console
+helm package --version 1.0.0 --app-version 1.0.0 --destination ./build ./helm/ish-monitoring-postgresqldb-exporter
+az acr helm push --force -n ishcloudopsicp -u ishcloudopsicp -p <the password>  ./build/ish-monitoring-postgresqldb-exporter-1.0.0.tgz -o table
+```
+
